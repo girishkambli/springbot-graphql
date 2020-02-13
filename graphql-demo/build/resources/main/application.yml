@@ -1,0 +1,58 @@
+spring:
+  application:
+    name: graphql-demo
+server:
+  port: 8083
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,shutdown
+  endpoint:
+    shutdown:
+      enabled: true
+
+cors:
+  allowedOrigins: http://localhost:3000
+
+graphql:
+  servlet:
+    mapping: /graphql
+    enabled: true
+    corsEnabled: true
+    # if you want to @ExceptionHandler annotation for custom GraphQLErrors
+    # Enabling this flag doesn't helping to populate {$.error.extensions} in response : https://github.com/graphql-java-kickstart/graphql-spring-boot/issues/171
+    exception-handlers-enabled: false
+  tools:
+    schema-location-pattern: "**/*.graphqls"
+    # Enable or disable the introspection query. Disabling it puts your server in contravention of the GraphQL
+    # specification and expectations of most clients, so use this option with caution
+    introspection-enabled: true
+
+graphiql:
+  mapping: /graphiql
+  endpoint:
+    graphql: /graphql
+    subscriptions: /subscriptions
+  static:
+    basePath: /
+  enabled: true
+  pageTitle: GraphiQL
+  cdn:
+    enabled: false
+    version: 0.11.11
+
+voyager:
+  mapping: /voyager
+  enabled: true
+  pageTitle: Voyager
+  graphql:
+    endpoint: /graphql
+
+logging:
+  level:
+    springframework:
+      web: INFO
+
